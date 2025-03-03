@@ -76,5 +76,6 @@ def fetch_joke():
 def serve_static(filename):
     return send_from_directory('.', filename)  # Serve static files (CSS, etc.)
 
+# Vercel will use this callable to run the app in a serverless function environment
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Run the Flask app in debug mode
+    app.run(debug=True)
