@@ -8,12 +8,12 @@ import random
 # Loading environment variables from .env file
 load_dotenv()
 
-# Initialize the Flask application and allow static files to be served from the current directory
-app = Flask(__name__, static_folder='.')  
+# Initialize the Flask application
+app = Flask(__name__, static_folder='.')  # Serve static files from the current directory
 CORS(app)  # Enable CORS for all routes
 
-# Initialize the GenAI client
-api_key = os.getenv("API_KEY")  # Load API key from environment variable
+# Initialize GenAI client
+api_key = os.getenv("API_KEY")
 client = genai.Client(api_key=api_key)
 
 # Function to get a joke
