@@ -1,21 +1,33 @@
 {
-  [
+  "builds": [
     {
       "src": "JokeGPT.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "styles.css",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/get_joke",
-      "dest": "JokeGPT.py"
+      "dest": "/JokeGPT.py"
     },
     {
       "src": "/",
-      "dest": "index.html"
+      "dest": "/index.html"
     },
     {
-      "src": "/",
+      "src": "/styles.css",
+      "dest": "/styles.css"
+    },
+    {
+      "src": "/(.*)",
       "dest": "/$1"
     }
   ]
