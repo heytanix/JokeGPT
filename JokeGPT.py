@@ -61,8 +61,11 @@ def home():
 
 @app.route('/get_joke', methods=['GET'])
 def fetch_joke():
-    joke = get_joke()  # Get a random joke
-    return jsonify({"joke": joke})  # Return the joke as a JSON response
+    try:
+        joke = get_joke()  # Get a random joke
+        return jsonify({"joke": joke})  # Return the joke as a JSON response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static(filename):
