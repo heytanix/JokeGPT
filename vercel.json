@@ -18,6 +18,10 @@
     {
       "src": "/styles.css",
       "dest": "/styles.css"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
