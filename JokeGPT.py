@@ -8,7 +8,7 @@ import random
 # Loading the environment variables from ".env" file
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='.')  # Serve static files from the current directory
 CORS(app)  # Enable CORS for all routes
 
 # Initialize the GenAI client with the API key
@@ -57,7 +57,8 @@ def get_joke():
 
 @app.route('/')
 def home():
-    return send_from_directory('.', 'index.html')  # Serve index.html from the current directory
+    # Serve index.html from the current directory
+    return send_from_directory(os.getcwd(), 'index.html')
 
 @app.route('/get_joke', methods=['GET'])
 def fetch_joke():
@@ -74,7 +75,8 @@ def fetch_joke():
 
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static(filename):
-    return send_from_directory('.', filename)  # Serve static files (CSS, etc.)
+    # Serve static files (CSS, etc.) from the current directory
+    return send_from_directory(os.getcwd(), filename)
 
 # Vercel will use this callable to run the app in a serverless function environment
 if __name__ == "__main__":
