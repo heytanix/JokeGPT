@@ -42,8 +42,8 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/heytanix/JokeGPT.git
+   cd JokeGPT
    ```
 
 2. **Install the required packages**:
@@ -55,7 +55,7 @@ Before you begin, ensure you have the following installed:
    - Create a `.env` file in the root directory of the project.
    - Add your API key:
      ```
-     API_KEY=your_google_genai_api_key
+     API_KEY=your_google_genai_api_key (confidential - Present in ".env" file)
      ```
 
 ### Running the Application
