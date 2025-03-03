@@ -8,11 +8,11 @@
   "routes": [
     {
       "src": "/get_joke",
-      "dest": "/JokeGPT.py"
+      "dest": "JokeGPT.py"
     },
     {
       "src": "/",
-      "dest": "/index.html"
+      "dest": "index.html"
     }
   ]
 }
