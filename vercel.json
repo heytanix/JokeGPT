@@ -8,16 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/index.html"
-    },
-    {
       "src": "/get_joke",
-      "dest": "/JokeGPT.py"
-    },
-    {
-      "src": "/styles.css",
-      "dest": "/styles.css"
+      "dest": "JokeGPT.py"
     },
     {
       "src": "/(.*)",
