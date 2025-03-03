@@ -1,6 +1,6 @@
 Flask
 Flask-Cors
-google
 google-auth
 google-genai
+google-cloud-genai
 python-dotenv

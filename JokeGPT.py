@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, send_from_directory
-from flask_cors import CORS
+from flask_cors import CORS  # Import CORS
 from google import genai
 from dotenv import load_dotenv
 import os
@@ -8,7 +8,7 @@ import random
 # Loading the environment variables from ".env" file
 load_dotenv()
 
-app = Flask(__name__, static_folder='.')  # Specify static folder as current directory
+app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
 # Initialize the GenAI client with the API key
@@ -57,7 +57,7 @@ def get_joke():
 
 @app.route('/')
 def home():
-    return send_from_directory(app.static_folder, 'index.html')  # Serve index.html from static folder
+    return send_from_directory('.', 'index.html')  # Serve index.html from the current directory
 
 @app.route('/get_joke', methods=['GET'])
 def fetch_joke():
@@ -66,7 +66,7 @@ def fetch_joke():
 
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static(filename):
-    return send_from_directory(app.static_folder, filename)  # Serve static files (CSS, etc.)
+    return send_from_directory('.', filename)  # Serve static files (CSS, etc.)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)  # Run the Flask app in debug mode
