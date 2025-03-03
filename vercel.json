@@ -17,7 +17,7 @@
     },
     {
       "src": "/static/(.*)",
-      "dest": "/$1"  # Serve static files like CSS, JS
+      "dest": "/$1" 
     }
   ]
 }
