@@ -5,14 +5,15 @@ from dotenv import load_dotenv
 import os
 import random
 
-# Loading environment variables from .env
+# Loading environment variables from .env file
 load_dotenv()
 
-app = Flask(__name__, static_folder='.')  # Serving static files from the current directory
+# Initialize the Flask application and allow static files to be served from the current directory
+app = Flask(__name__, static_folder='.')  
 CORS(app)  # Enable CORS for all routes
 
-# Initialize the GenAI client with API key
-api_key = os.getenv("API_KEY")
+# Initialize the GenAI client
+api_key = os.getenv("API_KEY")  # Load API key from environment variable
 client = genai.Client(api_key=api_key)
 
 # Function to get a joke
@@ -21,33 +22,33 @@ def get_joke():
     selected_topic = random.choice(topics)
     prompt = f"Tell me a funny joke about {selected_topic} in a complete sentence."
 
+    # Request joke generation using the GenAI client
     response = client.models.generate_content(
         model="gemini-2.0-flash", 
         contents=f"{prompt} | The rules are: 1. The joke should be funny, 2. The joke should not contain dark humor, 3. The joke should not be offensive, 4. The joke should not contain NSFW content"
     )
 
-    jokes = response.text.strip().split('\n')
-    unique_jokes = list(set(jokes))  # Remove duplicates
+    jokes = response.text.strip().split('\n')  # Split jokes by new line
+    unique_jokes = list(set(jokes))  # Remove duplicate jokes
     return random.choice(unique_jokes).strip() if unique_jokes else "No joke found."
 
-# Route to serve index.html
 @app.route('/')
 def home():
+    # Serve the index.html file from the root directory
     return send_from_directory(os.getcwd(), 'index.html')
 
-# Route to fetch the joke
 @app.route('/get_joke', methods=['GET'])
 def fetch_joke():
     try:
-        joke = get_joke()
-        return jsonify({"joke": joke})
+        joke = get_joke()  # Get a joke
+        return jsonify({"joke": joke})  # Return joke in JSON format
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
-# Serve static files (like styles.css)
+# Serve static files like styles.css
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static(filename):
-    return send_from_directory(os.getcwd(), filename)
+    return send_from_directory(os.getcwd(), filename)  # Serve static files from current directory
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)  # Run the app in debug mode
