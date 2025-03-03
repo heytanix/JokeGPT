@@ -17,7 +17,7 @@
     },
     {
       "src": "/styles.css",
-      "dest": "/styles.css"  // Explicitly serving styles.css from root
+      "dest": "/styles.css"
     }
   ]
 }
