@@ -1,4 +1,10 @@
 {
+  "builds": [
+    {
+      "src": "JokeGPT.py",
+      "use": "@vercel/python"
+    }
+  ],
   "routes": [
     {
       "src": "/get_joke",
