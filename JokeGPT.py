@@ -64,7 +64,10 @@ def fetch_joke():
     try:
         joke = get_joke()  # Get a random joke
         print("Generated joke:", joke)  # Debugging output
-        return jsonify({"joke": joke})  # Return the joke as a JSON response
+        if isinstance(joke, str):  # Ensure joke is a string
+            return jsonify({"joke": joke})  # Return the joke as a JSON response
+        else:
+            raise ValueError("Joke is not a valid string")
     except Exception as e:
         print("Error fetching joke:", str(e))  # Print the error
         return jsonify({"error": str(e)}), 500  # Return error as JSON
