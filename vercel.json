@@ -16,8 +16,8 @@
       "dest": "/index.html"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "/$1"
+      "src": "/styles.css",
+      "dest": "/styles.css"  // Explicitly serving styles.css from root
     }
   ]
 }
