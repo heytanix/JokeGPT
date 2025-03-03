@@ -1,5 +1,5 @@
-from flask import Flask, jsonify, send_from_directory, Response
-from flask_cors import CORS  # Import CORS
+from flask import Flask, jsonify
+from flask_cors import CORS
 from google import genai
 from dotenv import load_dotenv
 import os
@@ -61,17 +61,11 @@ def get_joke():
         print(f"Error fetching joke: {e}")
         return "Error fetching joke"
 
-@app.route('/')
-def home():
-    return send_from_directory('.', 'index.html')  # Serve index.html from the current directory
-
 @app.route('/get_joke', methods=['GET'])
 def fetch_joke():
     try:
         joke = get_joke()  # Get a random joke
         response = jsonify({"joke": joke})  # Return the joke as a JSON response
-        
-        # Set cache headers to prevent caching
         response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
@@ -81,9 +75,6 @@ def fetch_joke():
     except Exception as e:
         return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
-@app.route('/<path:filename>', methods=['GET'])
-def serve_static(filename):
-    return send_from_directory('.', filename)  # Serve static files (CSS, etc.)
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)  # Run the Flask app in debug mode
+# Vercel expects the app to be callable without app.run()
+def handler(request):
+    return app(request)
