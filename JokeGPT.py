@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, Response
 from flask_cors import CORS  # Import CORS
 from google import genai
 from dotenv import load_dotenv
@@ -36,24 +36,30 @@ def get_joke():
     # General prompt to generate a random joke
     prompt = f"Tell me a funny joke about {selected_topic} in a complete sentence."
     
-    # Generation of content using the Gemini-2.0-Flash model
-    response = client.models.generate_content(
-        model="gemini-2.0-flash", 
-        contents=f"{prompt} | The rules are: 1. The joke should be funny, 2. The joke should not contain dark humor, 3. The joke should not be offensive, 4. The joke should not contain NSFW content"
-    )
+    try:
+        # Generation of content using the Gemini-2.0-Flash model
+        response = client.models.generate_content(
+            model="gemini-2.0-flash", 
+            contents=f"{prompt} | The rules are: 1. The joke should be funny, 2. The joke should not contain dark humor, 3. The joke should not be offensive, 4. The joke should not contain NSFW content"
+        )
+        
+        # Debugging: Print the raw response
+        print("Raw response from GenAI:", response.text)
+        
+        # Assuming the response contains the joke in a specific format
+        jokes = response.text.strip().split('\n')  # Split by new lines if multiple jokes are returned
+        unique_jokes = list(set(jokes))  # Remove duplicates by converting to a set
+        
+        # Debugging: Print the unique jokes
+        print("Unique jokes generated:", unique_jokes)
+        
+        # Return a random unique joke, ensuring it's a single string
+        return random.choice(unique_jokes).strip() if unique_jokes else "No joke found."
     
-    # Debugging: Print the raw response
-    print("Raw response from GenAI:", response.text)
-    
-    # Assuming the response contains the joke in a specific format
-    jokes = response.text.strip().split('\n')  # Split by new lines if multiple jokes are returned
-    unique_jokes = list(set(jokes))  # Remove duplicates by converting to a set
-    
-    # Debugging: Print the unique jokes
-    print("Unique jokes generated:", unique_jokes)
-    
-    # Return a random unique joke, ensuring it's a single string
-    return random.choice(unique_jokes).strip() if unique_jokes else "No joke found."
+    except Exception as e:
+        # Handle any exception during joke fetching
+        print(f"Error fetching joke: {e}")
+        return "Error fetching joke"
 
 @app.route('/')
 def home():
@@ -63,7 +69,15 @@ def home():
 def fetch_joke():
     try:
         joke = get_joke()  # Get a random joke
-        return jsonify({"joke": joke})  # Return the joke as a JSON response
+        response = jsonify({"joke": joke})  # Return the joke as a JSON response
+        
+        # Set cache headers to prevent caching
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        
+        return response  # Return the joke with headers
+        
     except Exception as e:
         return jsonify({"error": str(e)}), 500  # Return error if something goes wrong
 
