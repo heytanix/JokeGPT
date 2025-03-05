@@ -14,9 +14,9 @@
             height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0; /* Default background color */
-            color: #333; /* Default text color */
-            overflow: hidden; /* Prevent overflow */
+            background-color: #f0f0f0;
+            color: #333;
+            overflow: hidden;
         }
         .header {
             position: absolute;
@@ -28,14 +28,14 @@
             font-size: 24px;
             margin: 20px 0;
             text-align: center;
-            max-width: 90%; /* Limit the width of the joke output */
-            word-wrap: break-word; /* Allow long words to break */
-            white-space: pre-wrap; /* Preserve whitespace and line breaks */
+            max-width: 90%;
+            word-wrap: break-word;
+            white-space: pre-wrap;
         }
         #getJokeButton {
-            background-color: rgb(0, 116, 155); /* Light blue background */
-            color: white; /* White text */
-            font-weight: bold; /* Bold text */
+            background-color: rgb(0, 116, 155);
+            color: white;
+            font-weight: bold;
             border: none;
             padding: 10px 20px;
             cursor: pointer;
@@ -43,7 +43,7 @@
             font-size: 16px;
         }
         #getJokeButton:hover {
-            opacity: 0.8; /* Slightly darker on hover */
+            opacity: 0.8;
         }
     </style>
 </head>
@@ -56,23 +56,21 @@
     <button id="getJokeButton">Get a Joke</button>
 
     <script>
-        // Function to fetch a joke from the backend
         document.getElementById('getJokeButton').addEventListener('click', async () => {
             try {
-                const response = await fetch('/get_joke'); // Fetch the joke from the Flask endpoint
+                const response = await fetch('/get_joke');
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-                const data = await response.json(); // Parse the JSON response
-                document.getElementById('jokeOutput').innerText = data.joke; // Display the joke
+                const data = await response.json();
+                document.getElementById('jokeOutput').innerText = data.joke;
                 
-                // Change background and text color
                 const bgColor = (document.body.style.backgroundColor === 'black') ? 'white' : 'black';
                 const textColor = (bgColor === 'black') ? 'white' : 'black';
                 
                 document.body.style.backgroundColor = bgColor;
                 document.body.style.color = textColor;
-                document.getElementById('jokeOutput').style.color = textColor; // Set joke text color
+                document.getElementById('jokeOutput').style.color = textColor;
             } catch (error) {
                 console.error('Error fetching joke:', error);
                 document.getElementById('jokeOutput').innerText = 'Failed to fetch a joke. Please try again.';
